@@ -6,9 +6,10 @@
 // a função zerar foi criada para, como o proprio nome diz, zerar a matriz
 // isso serve para os dados inseridos permanecerem integros e não se misturarem com lixo de memoria.
 void zerar(int** mat , int tam);
-void adicao(int** a , int** b , int** c, int tam);
-void subtracao(int** a , int** b , int** c, int tam);
-void separa(int** a );
+void soma(int** a , int** b , int** c, int tam);
+void subtrai(int** a , int** b , int** c, int tam);
+void separa(int** a , int** c , int linha , int coluna , int tam);
+void junta(int** a , int **c , int linha , int coluna , int tam);
 void strassen(int **a , int **b , int **c , int tam);
 
 #endif
