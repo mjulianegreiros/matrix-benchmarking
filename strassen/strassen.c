@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include "strassen.h"
 
-void zerar(int** mat , int tam){
+
+// nao precisa mais por causa do calloc
+/*void zerar(int** mat , int tam){
     int i , j;
 
     for(i=0;i<tam;i++){
@@ -10,6 +12,21 @@ void zerar(int** mat , int tam){
             mat[i][j] = 0;
         }
     }
+}*/
+int** alocar(int tam){
+    int **matriz = malloc(tam*sizeof(int*));
+    for(int i=0;i<tam;i++){
+        matriz[i] = calloc(tam , sizeof(int)); // zera a matriz automaticamente quando inicia
+    }
+
+    return matriz;
+}
+void liberar(int **matriz , int tam){
+    for(int i=0;i<tam;i++){
+        free(matriz[i]);
+    }
+    free(matriz);
+
 }
 void soma(int** a , int** b , int** c, int tam){ //faz uma das etapas do algoritmo.(soma matrizes e armazena na matriz C)
     int i , j;
@@ -58,13 +75,12 @@ void junta(int** a , int **c , int linha , int coluna , int tam){ // tendi nada
     }
 }
 void strassen(int **a , int **b , int **c , int tam){
-    zerar(c , tam);
     if(tam==1){
         c[0][0] = a[0][0] * b[0][0];
     } else{
         // matrizes auxiliares que dividem as matrizes maiores em 4 matrizes menores com 1/4 do tamanho original
-        int **a1 , **a2 , **a3 , **a4;
-        int **b1 , **b2 , **b3 , **b4;
+        int **a1 = alocar(tam/2); int **a2 = alocar(tam/2); int **a3 = alocar(tam/2); int **a4 = alocar(tam/2);
+        int **b1 = alocar(tam/2); int **b2 = alocar(tam/2); int **b3 = alocar(tam/2); int **b4 = alocar(tam/2);
 
         // separando a matriz a
         separa(a , a1 , 0 , 0 , tam/2);
@@ -79,8 +95,8 @@ void strassen(int **a , int **b , int **c , int tam){
         separa(b , b4 , tam/2 , tam/2 , tam/2   );
 
         // usando as fórmulas do algoritmo
-        int **s1 , **s2 , **s3 , **s4 , **s5;
-        int **s6 , **s7 , **s8 , **s9 , **s10;
+        int **s1 = alocar(tam/2); int **s2 = alocar(tam/2); int **s3 = alocar(tam/2); int **s4 = alocar(tam/2); int **s5 = alocar(tam/2);
+        int **s6 = alocar(tam/2); int **s7 = alocar(tam/2); int **s8 = alocar(tam/2); int **s9 = alocar(tam/2); int **s10 = alocar(tam/2);
 
         subtrai(b2 , b4 , s1 , tam/2);
         soma(a1 , a2 , s2 , tam/2);
@@ -94,7 +110,8 @@ void strassen(int **a , int **b , int **c , int tam){
         soma(b1 , b2 , s10 , tam/2);
 
         // multiplicando as somas
-        int **p1 , **p2 , **p3 , **p4 , **p5 , **p6 , **p7;
+        int **p1 = alocar(tam/2); int **p2 = alocar(tam/2); int **p3 = alocar(tam/2); int **p4 = alocar(tam/2);
+        int **p5 = alocar(tam/2); int **p6 = alocar(tam/2); int **p7 = alocar(tam/2);
         strassen(a1 , s1 , p1 , tam/2);
         strassen(s2 , b4 , p2 , tam/2);
         strassen(s3 , b1 , p3 , tam/2);
@@ -104,8 +121,8 @@ void strassen(int **a , int **b , int **c , int tam){
         strassen(s9 , s10 , p7 , tam/2);
         
         // remontando a matriz C
-        int **t1 , **t2; // matrizes auxiliares para o processo de remontagem
-        int **c1 , **c2 , **c3 , **c4; // matrizes a serem remontadas
+        int **t1 = alocar(tam/2); int **t2 = alocar(tam/2); // matrizes auxiliares para o processo de remontagem
+        int **c1 = alocar(tam/2); int **c2 = alocar(tam/2); int **c3 = alocar(tam/2); int **c4 = alocar(tam/2); // matrizes a serem remontadas
         // remontando C1
         soma(p5 , p4 , t1 , tam/2);
         subtrai(t1 , p2 , t2 , tam/2);
@@ -123,10 +140,27 @@ void strassen(int **a , int **b , int **c , int tam){
         soma(t2 , p7 , c4 , tam/2);
 
         // juntando tudo 
-        junta(c1 , c , 0 , 0 , tam/2);
-        junta(c2 , c , 0 , tam/2 , tam/2);
-        junta(c3 , c , tam/2 , 0 , tam/2);
-        junta(c4 , c , tam/2 , tam/2 , tam/2);
+        junta(c , c1 , 0 , 0 , tam/2);
+        junta(c , c2 , 0 , tam/2 , tam/2);
+        junta(c , c3 , tam/2 , 0 , tam/2);
+        junta(c , c4 , tam/2 , tam/2 , tam/2);
+
+
+        // liberação das matrizes auxiliares
+        liberar(a1 , tam/2); liberar(a2 , tam/2); liberar(a3 , tam/2); liberar(a4 , tam/2);
+
+        liberar(b1 , tam/2); liberar(b2 , tam/2); liberar(b3 , tam/2); liberar(b4 , tam/2);
+
+        liberar(s1 , tam/2); liberar(s2 , tam/2); liberar(s3 , tam/2); liberar(s4 , tam/2);
+        liberar(s5 , tam/2); liberar(s6 , tam/2); liberar(s7 , tam/2); liberar(s8 , tam/2);
+        liberar(s9 , tam/2); liberar(s10 , tam/2);
+
+        liberar(p1 , tam/2); liberar(p2 , tam/2); liberar(p3 , tam/2); liberar(p4 , tam/2);
+        liberar(p5 , tam/2); liberar(p6 , tam/2); liberar(p7 , tam/2); 
+        
+        liberar(t1 , tam/2); liberar(t2 , tam/2);
+
+        liberar(c1 , tam/2); liberar(c2 , tam/2); liberar(c3 , tam/2); liberar(c4 , tam/2);
         
     }
 }
