@@ -129,7 +129,7 @@ void strassen(int **a , int **b , int **c , int tam){
         soma(t2 , p6 , c1 , tam/2);
 
         // remontando C2
-        soma(p3 , p5 , c2 , tam/2);
+        soma(p1 , p2 , c2 , tam/2);
 
         // remontando C3
         soma(p3 , p4 , c3 , tam/2);
@@ -137,7 +137,7 @@ void strassen(int **a , int **b , int **c , int tam){
         // remontando C4
         soma(p5 , p1 , t1 , tam/2);
         subtrai(t1 , p3 , t2 , tam/2);
-        soma(t2 , p7 , c4 , tam/2);
+        subtrai(t2 , p7 , c4 , tam/2);
 
         // juntando tudo 
         junta(c , c1 , 0 , 0 , tam/2);

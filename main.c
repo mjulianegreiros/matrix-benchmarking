@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define N 4
+#define N 3
 #include "strassen/strassen.h"
 #include "produto-matriz/multMatriz.h"
+#include "strassenGeral/geral.h"
 
 int main(){
     srand(time(NULL));
@@ -24,7 +25,7 @@ int main(){
         }
     }
 
-    printf("MATRZI A: \n");
+    printf("MATRIZ A: \n");
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
             printf("%d " , a[i][j]);
@@ -41,8 +42,8 @@ int main(){
         printf("\n");
     }
 
-    // strassen(a , b , c , N);
-    multMatrizes(a , b , c , N);
+    strassenGeral(a , b , c , N);
+    //multMatrizes(a , b , c , N);
     printf("\nMATRIZ C: \n");
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
