@@ -12,6 +12,6 @@ void soma(int** a , int** b , int** c, int tam);
 void subtrai(int** a , int** b , int** c, int tam);
 void separa(int** a , int** c , int linha , int coluna , int tam);
 void junta(int** a , int **c , int linha , int coluna , int tam);
-void strassen(int **a , int **b , int **c , int tam);
+void strassen(int **a , int **b , int **c , int tam , int* qtdChamada);
 
 #endif

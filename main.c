@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define N 3
+#define N 8
 #include "strassen/strassen.h"
 #include "produto-matriz/multMatriz.h"
-#include "strassenGeral/geral.h"
+// #include "strassenGeral/geral.h"
 
 int main(){
     srand(time(NULL));
@@ -41,8 +41,9 @@ int main(){
         }
         printf("\n");
     }
-
-    strassenGeral(a , b , c , N);
+    int qtdCham=1;
+    strassen(a , b , c , N , &qtdCham);
+    // strassenGeral(a , b , c , N);
     //multMatrizes(a , b , c , N);
     printf("\nMATRIZ C: \n");
     for(int i=0;i<N;i++){
@@ -51,6 +52,7 @@ int main(){
         }
         printf("\n");
     }
+    printf("\nqtd chamdas recursivas: %d" , qtdCham);
 
     return 0;
 }

@@ -74,7 +74,7 @@ void junta(int** a , int **c , int linha , int coluna , int tam){ // tendi nada
         }
     }
 }
-void strassen(int **a , int **b , int **c , int tam){
+void strassen(int **a , int **b , int **c , int tam , int* qtdChamada){
     if(tam==1){
         c[0][0] = a[0][0] * b[0][0];
     } else{
@@ -92,7 +92,7 @@ void strassen(int **a , int **b , int **c , int tam){
         separa(b , b1 , 0 , 0 , tam/2);
         separa(b , b2 , 0 , tam/2 , tam/2);
         separa(b , b3 , tam/2 , 0 , tam/2);
-        separa(b , b4 , tam/2 , tam/2 , tam/2   );
+        separa(b , b4 , tam/2 , tam/2 , tam/2);
 
         // usando as fórmulas do algoritmo
         int **s1 = alocar(tam/2); int **s2 = alocar(tam/2); int **s3 = alocar(tam/2); int **s4 = alocar(tam/2); int **s5 = alocar(tam/2);
@@ -112,13 +112,21 @@ void strassen(int **a , int **b , int **c , int tam){
         // multiplicando as somas
         int **p1 = alocar(tam/2); int **p2 = alocar(tam/2); int **p3 = alocar(tam/2); int **p4 = alocar(tam/2);
         int **p5 = alocar(tam/2); int **p6 = alocar(tam/2); int **p7 = alocar(tam/2);
-        strassen(a1 , s1 , p1 , tam/2);
-        strassen(s2 , b4 , p2 , tam/2);
-        strassen(s3 , b1 , p3 , tam/2);
-        strassen(a4 , s4 , p4 , tam/2);
-        strassen(s5 , s6 , p5 , tam/2);
-        strassen(s7 , s8 , p6 , tam/2);
-        strassen(s9 , s10 , p7 , tam/2);
+        
+        strassen(a1 , s1 , p1 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(s2 , b4 , p2 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(s3 , b1 , p3 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(a4 , s4 , p4 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(s5 , s6 , p5 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(s7 , s8 , p6 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
+        strassen(s9 , s10 , p7 , tam/2 , qtdChamada);
+        *qtdChamada = *qtdChamada + 1;
         
         // remontando a matriz C
         int **t1 = alocar(tam/2); int **t2 = alocar(tam/2); // matrizes auxiliares para o processo de remontagem
