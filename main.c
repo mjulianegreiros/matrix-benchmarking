@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define N 8
-#include "strassen/strassen.h"
-#include "produto-matriz/multMatriz.h"
-// #include "strassenGeral/geral.h"
+#include "./strassen/strassen.h"
+#include "./benchmark/benchmark.h"
+
+#define N 1024
 
 int main(){
     srand(time(NULL));
@@ -42,9 +42,9 @@ int main(){
         printf("\n");
     }
     int qtdCham=1;
-    strassen(a , b , c , N , &qtdCham);
-    // strassenGeral(a , b , c , N);
-    //multMatrizes(a , b , c , N);
+    double tempoStrassenGeral = calcTempStrassenGeral(a , b , c , N , &qtdCham);
+    //double tempoStrassen = calcTempStrassen(a , b , c , N, &qtdCham);
+    double tempoMultMatriz = calcTempMultMatriz(a , b , c , N);
     printf("\nMATRIZ C: \n");
     for(int i=0;i<N;i++){
         for(int j=0;j<N;j++){
@@ -52,7 +52,13 @@ int main(){
         }
         printf("\n");
     }
-    printf("\nqtd chamdas recursivas: %d" , qtdCham);
+    printf("\nqtd chamdas recursivas: %d\n" , qtdCham);
+
+    printf("Tempo de execucao do Strassen geral: %.5f\n", tempoStrassenGeral);
+
+    //printf("Tempo de execucao do Strassen: %.5f\n", tempoStrassenGeral);
+
+    printf("Tempo de execucao da multiplicacao de matrizes: %.5f\n", tempoMultMatriz);
 
     return 0;
 }
