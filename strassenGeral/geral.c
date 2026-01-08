@@ -25,7 +25,7 @@ void liberarMat(int **matriz , int tam){
     }
     free(matriz);
 }
-void strassenGeral(int **a , int** b , int **c , int tam){
+void strassenGeral(int **a , int** b , int **c , int tam, int *qtdCham){
     int novoTam = proxPot2(tam);
 
     // alocando matrizes de potencia de 2 preenchidas com 0
@@ -42,7 +42,7 @@ void strassenGeral(int **a , int** b , int **c , int tam){
     }
 
     // resolve a multiplicacao de matrizes com o strassen normal
-    strassen(a2 , b2 , c2 , novoTam);
+    strassen(a2 , b2 , c2 , novoTam, qtdCham);
 
     // copia o resultado pra matriz C original
     for(int i=0;i<tam;i++){
